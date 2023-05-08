@@ -1,0 +1,13 @@
+@host=http://localhost:5000
+
+
+POST {{host}}/auth/Register
+Content-Type: application/json
+
+{
+    "firstName": "Amichi",
+    "lastName" : "MantinBand",
+    "email":"amicha@gmail.com",
+    "password":"amico"
+}
+
