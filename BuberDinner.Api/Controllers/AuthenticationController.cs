@@ -1,31 +1,31 @@
 using BuberDinner.Application.Common.Errors;
-using BuberDinner.Application.Services.Authentication;
 using BuberDinner.Contracts.Authentication;
-using ErrorOr;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
-using  BuberDinner.Domain.Common.Errors;
+using MediatR;
+using BuberDinner.Application.Authentication.Commands.Register;
+using BuberDinner.Application.Authentication;
+using BuberDinner.Application.Authentication.Queries.Login;
+
 namespace BuberDinner.Api.Controllers;
 
 
 [Route("auth")]
 public class AuthenticationController : ApiController
 {
-    public readonly IAuthenticationService _authenticationService;
+    
+    public readonly IMediator _mediator;
 
-    public AuthenticationController(IAuthenticationService authenticationService)
+    public AuthenticationController(IMediator mediator)
     {
-        _authenticationService = authenticationService;
+        _mediator = mediator;
     }
 
     [HttpPost("Register")]
-    public IActionResult Register (RegisterRequest request)
+    public async Task<IActionResult> Register (RegisterRequest request)
     {
-       Result<AuthenticationResult> registerResult = _authenticationService.Register(
-            request.FirstName,
-            request.LastName,
-            request.Email,
-            request.Password);
+        var command = new Registercommand(request.FirstName, request.LastName, request.Email, request.Password);
+       Result<AuthenticationResult> registerResult = await _mediator.Send(command);
 
             if(registerResult.IsSuccess)
             {
@@ -51,11 +51,10 @@ public class AuthenticationController : ApiController
 
     
     [HttpPost("Login")]
-    public IActionResult Login (LoginRequest request)
+    public async Task<IActionResult> Login (LoginRequest request)
     {
-        Result<AuthenticationResult> authresult = _authenticationService.Login(
-            request.Email,
-            request.Password);
+        var query = new LoginQuery (request.Email,request.Password);
+        Result<AuthenticationResult> authresult = await _mediator.Send(query);
         
         if(authresult.IsSuccess)
         {
