@@ -17,7 +17,7 @@ public static class DependencyInjection
         Services.AddScoped<IMapper , ServiceMapper>();
 
         Services.AddControllers();
-        Services.AddSingleton<ProblemDetailsFactory,BubberDinnerPoblemDetailFactory>();
+        // Services.AddSingleton<ProblemDetailsFactory,BubberDinnerPoblemDetailFactory>();
         
         return Services;
     }

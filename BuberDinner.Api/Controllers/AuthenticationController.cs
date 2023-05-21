@@ -7,11 +7,14 @@ using BuberDinner.Application.Authentication.Commands.Register;
 using BuberDinner.Application.Authentication;
 using BuberDinner.Application.Authentication.Queries.Login;
 using MapsterMapper;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BuberDinner.Api.Controllers;
 
 
 [Route("auth")]
+[AllowAnonymous]
 public class AuthenticationController : ApiController
 {
     
@@ -29,26 +32,36 @@ public class AuthenticationController : ApiController
     {
         // var command = new Registercommand(request.FirstName, request.LastName, request.Email, request.Password);
         var command = _mapper.Map<Registercommand>(request);
-       Result<AuthenticationResult> registerResult = await _mediator.Send(command);
+        Result<AuthenticationResult> registerResult = await _mediator.Send(command);
 
             if(registerResult.IsSuccess)
             {
                 return Ok(_mapper.Map<AuthenticationResponse>(registerResult.Value));
             }
-            
-   
 
-            var firstError = registerResult.Errors[0];
+            var modelStateDictionary = new ModelStateDictionary();
             
-            if(firstError is DuplicateEmailError)
+            foreach(var err in registerResult.Errors)
             {
-                return Problem(statusCode: StatusCodes.Status409Conflict, title:firstError.Message);
+                if(err is DuplicateEmailError)
+                {
+                    return Problem(statusCode: StatusCodes.Status409Conflict, title:err.Message);
+                }
+
+                if(err is ValidationError error)
+                {
+                    modelStateDictionary.AddModelError(
+                        error.PropertyName,
+                        error.ErrorMessage
+                    );
+                    
+                }
             }
+            return ValidationProblem(modelStateDictionary);
 
-        return Problem();
-
-    
-
+            // var firstError = registerResult.Errors[0];
+            
+           
         
     }
 
@@ -65,15 +78,28 @@ public class AuthenticationController : ApiController
         {
             return Ok(_mapper.Map<AuthenticationResponse>(authresult.Value));
         }
-
-        var firstError = authresult.Errors[0];
-        if(firstError is InvalidCredentials)
+        var modelStateDictionary = new ModelStateDictionary();
+ 
+        foreach(var err in authresult.Errors)
         {
-            return Problem(statusCode:StatusCodes.Status401Unauthorized,title:firstError.Message);
+            if(err is InvalidCredentials)
+            {
+                return Problem(statusCode:StatusCodes.Status401Unauthorized,title:err.Message);
+            }
+            
+            if(err is ValidationError error)
+            {
+                modelStateDictionary.AddModelError(
+                    error.PropertyName,
+                    error.ErrorMessage
+                );
+                
+            }
         }
-        
-        return Problem();
 
+        return ValidationProblem(modelStateDictionary);
+        
+        
     }
 
   
