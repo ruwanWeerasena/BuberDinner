@@ -1,4 +1,5 @@
-using BuberDinner.Domain.Entities;
+
+using BuberDinner.Domain.Common.Entities;
 
 namespace BuberDinner.Application.Common.Interfaces.Persistent;
 
