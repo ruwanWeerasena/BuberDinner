@@ -10,10 +10,16 @@ public sealed class MenuSectionId : ValueObject
     {
         Value = value;
     }
-
+    private MenuSectionId()
+    {
+    }
     public static MenuSectionId CreateUnique()
     {
         return new(Guid.NewGuid());
+    }
+    public static MenuSectionId Create(Guid value)
+    {
+        return new(value);
     }
     public override IEnumerable<object> GetEqualityComponents()
     {

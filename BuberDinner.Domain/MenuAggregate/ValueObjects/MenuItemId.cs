@@ -10,10 +10,17 @@ public sealed class MenuItemId : ValueObject
     {
         Value = value;
     }
+    private MenuItemId()
+    {
+    }
 
     public static MenuItemId CreateUnique()
     {
         return new(Guid.NewGuid());
+    }
+    public static MenuItemId Create(Guid value)
+    {
+        return new(value);
     }
     public override IEnumerable<object> GetEqualityComponents()
     {

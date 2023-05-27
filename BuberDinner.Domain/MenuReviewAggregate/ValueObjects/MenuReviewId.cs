@@ -9,6 +9,10 @@ public sealed class MenuReviewId : ValueObject
     {
         Value = value;
     }
+    private MenuReviewId()
+    {
+      
+    }
 
     public static MenuReviewId CreateUnique()
     {

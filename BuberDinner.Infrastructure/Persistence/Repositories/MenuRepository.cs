@@ -1,0 +1,22 @@
+using BuberDinner.Application.Common.Interfaces.Persistent;
+using BuberDinner.Domain.MenuAggregate;
+
+namespace BuberDinner.Infrastructure.Persistence.Repositories;
+public class MenuRepository : IMenuRepository
+{
+    private readonly BuberDinnerDbContext _dbContext;
+
+    public MenuRepository(BuberDinnerDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+    private static readonly List<Menu> _menus = new();
+    public void Add(Menu menu)
+    {
+        _dbContext.Add(menu);
+        _dbContext.SaveChanges();
+    }
+
+     
+}

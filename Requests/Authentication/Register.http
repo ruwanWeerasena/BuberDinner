@@ -1,7 +1,6 @@
 @host=http://localhost:5000
 # http://localhost:8081
 
-
 POST {{host}}/auth/Register
 Content-Type: application/json
 

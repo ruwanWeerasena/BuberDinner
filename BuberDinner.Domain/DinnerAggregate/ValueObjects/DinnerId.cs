@@ -8,6 +8,10 @@ public sealed class DinnerId : ValueObject
     {
         Value = value;
     }
+    private DinnerId()
+    {
+        
+    }
 
     public static DinnerId CreateUnique()
     {
