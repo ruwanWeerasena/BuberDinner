@@ -23,6 +23,10 @@ public sealed class GuestId : ValueObject
     {
         return new GuestId(value);
     }
+    public static GuestId Create(string value)
+    {
+        return new GuestId(new Guid(value));
+    }
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;

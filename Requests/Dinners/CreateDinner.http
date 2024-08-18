@@ -1,0 +1,41 @@
+@host=http://localhost:5000
+@hostId=12345678-1234-1234-1234-123456789123
+# http://localhost:8081
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNjU4ZjdjMi1hOWFjLTQ5MTctYjZhNi03MWZjYzZlYTYwZWUiLCJnaXZlbl9uYW1lIjoiUnV3YW4iLCJmYW1pbHlfbmFtZSI6IldlZXJhc2VuYSIsImp0aSI6IjcxOGM4MGYxLWE2N2MtNGJjMi1hODY4LTNhMjQyMzNkN2VkMyIsImV4cCI6MTY4NTI5OTc2OSwiaXNzIjoiQnViYmVyIERpbm5lciIsImF1ZCI6IkJ1YmJlciBEaW5uZXIifQ.od-ALJ-l6l0A_EnKGVDxM71m0oxyJ4q-3dad45v5yUA
+POST {{host}}/hosts/{{hostId}}/dinners
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Yummy Dinner",
+    "description": "A dinner with yummy food",
+    "startDateTime": "2020-01-01T00:00:00.0000000Z",
+    "endDateTime": "2020-01-01T00:00:00.0000000Z",
+    "status": "Upcoming",
+    "isPublic": true,
+    "maxGuests": 10,
+    "price": {
+        "amount": 10.99,
+        "currency": "USD"
+    },
+    "hostId": "00000000-0000-0000-0000-000000000000" ,
+    "menuId": "00000000-0000-0000-0000-000000000000" ,
+    "imageUrl": "https://image.com",
+    "location": {
+        "name": "Dan's Pizza Place",
+        "address": "Berlin, Germany",
+        "latitude": 52.520008,
+        "longitude": 13.404954
+    },
+    "reservations": [
+        {
+            "guestCount": 2,
+            "reservationStatus": "Reserved",
+            "guestId": "00000000-0000-0000-0000-000000000000" ,
+            "billId":  "00000000-0000-0000-0000-000000000000 "
+          
+        }
+    ]
+ 
+}
+

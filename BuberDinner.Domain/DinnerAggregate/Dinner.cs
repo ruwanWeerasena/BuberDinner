@@ -74,7 +74,7 @@ public sealed class Dinner : AggregateRoot<DinnerId>
         DateTime startDateTime,
         DateTime endDateTime,
       
-        DinnerStatus status,
+        
         Boolean isPublic,
         int maxGuests,
         ValueObjects.Price price,
@@ -82,9 +82,8 @@ public sealed class Dinner : AggregateRoot<DinnerId>
         MenuId menuId,
         string imageUrl,
         Location location,
-        List<Reservation> reservations,
-        DateTime createdDateTime,
-        DateTime updatedDateTime
+        List<Reservation> reservations
+        
     )
     {
         return new(

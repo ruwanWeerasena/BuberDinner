@@ -23,6 +23,10 @@ public sealed class MenuId : ValueObject
     {
         return new MenuId(value);
     }
+    public static MenuId Create(string value)
+    {
+        return new MenuId(new Guid(value));
+    }
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;

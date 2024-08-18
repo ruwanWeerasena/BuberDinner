@@ -24,6 +24,10 @@ public sealed class BillId : ValueObject
     {
         return new BillId(value);
     }
+    public static BillId Create(string value)
+    {
+        return new BillId(new Guid(value));
+    }
     public override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
